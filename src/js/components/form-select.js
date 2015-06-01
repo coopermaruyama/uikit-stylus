@@ -2,21 +2,40 @@
 
     var component;
 
-    if (jQuery && jQuery.UIkit) {
-        component = addon(jQuery, jQuery.UIkit);
+    if (window.UIkit) {
+        component = addon(UIkit);
     }
 
     if (typeof define == "function" && define.amd) {
         define("uikit-form-select", ["uikit"], function(){
-            return component || addon(jQuery, jQuery.UIkit);
+            return component || addon(UIkit);
         });
     }
 
-})(function($, UI){
+})(function(UI){
+
+    "use strict";
 
     UI.component('formSelect', {
+
         defaults: {
-            'target': '>span:first'
+            'target': '>span:first',
+            'activeClass': 'uk-active'
+        },
+
+        boot: function() {
+            // init code
+            UI.ready(function(context) {
+
+                UI.$("[data-uk-form-select]", context).each(function(){
+
+                    var ele = UI.$(this);
+
+                    if (!ele.data("formSelect")) {
+                        var obj = UI.formSelect(ele, UI.Utils.options(ele.attr("data-uk-form-select")));
+                    }
+                });
+            });
         },
 
         init: function() {
@@ -34,6 +53,8 @@
                         $this.target.text(select.options[select.selectedIndex].text);
                     } catch(e) {}
 
+                    $this.element[$this.select.val() ? 'addClass':'removeClass']($this.options.activeClass);
+
                     return fn;
                 };
 
@@ -42,18 +63,6 @@
 
             this.element.data("formSelect", this);
         }
-    });
-
-    // init code
-    UI.ready(function(context) {
-
-        $("[data-uk-form-select]", context).each(function(){
-            var ele = $(this);
-
-            if (!ele.data("formSelect")) {
-                var obj = UI.formSelect(ele, UI.Utils.options(ele.attr("data-uk-form-select")));
-            }
-        });
     });
 
     return UI.formSelect;

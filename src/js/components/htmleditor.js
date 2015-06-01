@@ -2,17 +2,19 @@
 
     var component;
 
-    if (jQuery && jQuery.UIkit) {
-        component = addon(jQuery, jQuery.UIkit);
+    if (window.UIkit) {
+        component = addon(UIkit);
     }
 
     if (typeof define == "function" && define.amd) {
         define("uikit-htmleditor", ["uikit"], function(){
-            return component || addon(jQuery, jQuery.UIkit);
+            return component || addon(UIkit);
         });
     }
 
-})(function($, UI) {
+})(function(UI) {
+
+    "use strict";
 
     var editors = [];
 
@@ -25,12 +27,27 @@
             autocomplete : true,
             height       : 500,
             maxsplitsize : 1000,
-            markedOptions: { gfm: true, tables: true, breaks: true, pedantic: true, sanitize: false, smartLists: true, smartypants: false, langPrefix: 'lang-'},
             codemirror   : { mode: 'htmlmixed', lineWrapping: true, dragDrop: false, autoCloseTags: true, matchTags: true, autoCloseBrackets: true, matchBrackets: true, indentUnit: 4, indentWithTabs: false, tabSize: 4, hintOptions: {completionSingle:false} },
             toolbar      : [ 'bold', 'italic', 'strike', 'link', 'image', 'blockquote', 'listUl', 'listOl' ],
             lblPreview   : 'Preview',
             lblCodeview  : 'HTML',
             lblMarkedview: 'Markdown'
+        },
+
+        boot: function() {
+
+            // init code
+            UI.ready(function(context) {
+
+                UI.$('textarea[data-uk-htmleditor]', context).each(function() {
+
+                    var editor = UI.$(this), obj;
+
+                    if (!editor.data('htmleditor')) {
+                        obj = UI.htmleditor(editor, UI.Utils.options(editor.attr('data-uk-htmleditor')));
+                    }
+                });
+            });
         },
 
         init: function() {
@@ -43,7 +60,7 @@
             tpl = tpl.replace(/\{:lblPreview\}/g, this.options.lblPreview);
             tpl = tpl.replace(/\{:lblCodeview\}/g, this.options.lblCodeview);
 
-            this.htmleditor = $(tpl);
+            this.htmleditor = UI.$(tpl);
             this.content    = this.htmleditor.find('.uk-htmleditor-content');
             this.toolbar    = this.htmleditor.find('.uk-htmleditor-toolbar');
             this.preview    = this.htmleditor.find('.uk-htmleditor-preview').children().eq(0);
@@ -53,20 +70,23 @@
             this.editor = this.CodeMirror.fromTextArea(this.element[0], this.options.codemirror);
             this.editor.htmleditor = this;
             this.editor.on('change', UI.Utils.debounce(function() { $this.render(); }, 150));
-            this.editor.on('change', function() { $this.editor.save(); });
+            this.editor.on('change', function() {
+                $this.editor.save();
+                $this.element.trigger('input');
+            });
             this.code.find('.CodeMirror').css('height', this.options.height);
 
             // iframe mode?
             if (this.options.iframe) {
 
-                this.iframe = $('<iframe class="uk-htmleditor-iframe" frameborder="0" scrolling="auto" height="100" width="100%"></iframe>');
+                this.iframe = UI.$('<iframe class="uk-htmleditor-iframe" frameborder="0" scrolling="auto" height="100" width="100%"></iframe>');
                 this.preview.append(this.iframe);
 
                 // must open and close document object to start using it!
                 this.iframe[0].contentWindow.document.open();
                 this.iframe[0].contentWindow.document.close();
 
-                this.preview.container = $(this.iframe[0].contentWindow.document).find('body');
+                this.preview.container = UI.$(this.iframe[0].contentWindow.document).find('body');
 
                 // append custom stylesheet
                 if (typeof(this.options.iframe) === 'string') {
@@ -77,7 +97,7 @@
                 this.preview.container = this.preview;
             }
 
-            UI.$win.on('resize', UI.Utils.debounce(function() { $this.fit(); }, 200));
+            UI.$win.on('resize load', UI.Utils.debounce(function() { $this.fit(); }, 200));
 
             var previewContainer = this.iframe ? this.preview.container:$this.preview.parent(),
                 codeContent      = this.code.find('.CodeMirror-sizer'),
@@ -104,7 +124,7 @@
 
                     $this.htmleditor.find('.uk-htmleditor-button-code, .uk-htmleditor-button-preview').removeClass('uk-active').filter(this).addClass('uk-active');
 
-                    $this.activetab = $(this).hasClass('uk-htmleditor-button-code') ? 'code' : 'preview';
+                    $this.activetab = UI.$(this).hasClass('uk-htmleditor-button-code') ? 'code' : 'preview';
                     $this.htmleditor.attr('data-active-tab', $this.activetab);
                     $this.editor.refresh();
                 }
@@ -115,7 +135,7 @@
 
                 if (!$this.code.is(':visible')) return;
 
-                $this.trigger('action.' + $(this).data('htmleditor-button'), [$this.editor]);
+                $this.trigger('action.' + UI.$(this).data('htmleditor-button'), [$this.editor]);
             });
 
             this.preview.parent().css('height', this.code.height());
@@ -139,12 +159,12 @@
 
             this.debouncedRedraw = UI.Utils.debounce(function () { $this.redraw(); }, 5);
 
-            this.on('init', function() {
+            this.on('init.uk.component', function() {
                 $this.redraw();
             });
 
-            this.element.attr('data-uk-check-display', 1).on('uk.check.display', function(e) {
-                if(this.htmleditor.is(":visible")) this.fit();
+            this.element.attr('data-uk-check-display', 1).on('display.uk.check', function(e) {
+                if (this.htmleditor.is(":visible")) this.fit();
             }.bind(this));
 
             editors.push(this);
@@ -155,7 +175,7 @@
         },
 
         addButtons: function(buttons) {
-            $.extend(this.buttons, buttons);
+            UI.$.extend(this.buttons, buttons);
         },
 
         replaceInPreview: function(regexp, callback) {
@@ -179,15 +199,15 @@
                             return cursor.ch >= match.from.ch && cursor.ch < match.to.ch;
                         }
 
-                        return  (cursor.line === match.from.line && cursor.ch   >= match.from.ch)
-                            || (cursor.line >   match.from.line && cursor.line <  match.to.line)
-                            || (cursor.line === match.to.line   && cursor.ch   <  match.to.ch);
+                        return  (cursor.line === match.from.line && cursor.ch   >= match.from.ch) ||
+                                (cursor.line >   match.from.line && cursor.line <  match.to.line) ||
+                                (cursor.line === match.to.line   && cursor.ch   <  match.to.ch);
                     }
                 };
 
                 var result = callback(match);
 
-                if (result == false) {
+                if (!result) {
                     return arguments[0];
                 }
 
@@ -284,7 +304,7 @@
 
         addShortcut: function(name, callback) {
             var map = {};
-            if (!$.isArray(name)) {
+            if (!UI.$.isArray(name)) {
                 name = [name];
             }
 
@@ -487,14 +507,12 @@
 
         init: function(editor) {
 
-            var parser = editor.options.marked || marked;
+            var parser = editor.options.mdparser || marked || null;
 
             if (!parser) return;
 
-            parser.setOptions(editor.options.markedOptions);
-
             if (editor.options.markdown) {
-                enableMarkdown()
+                enableMarkdown();
             }
 
             addAction('bold', '**$1**');
@@ -563,7 +581,7 @@
                 }
             });
 
-            $.extend(editor, {
+            UI.$.extend(editor, {
 
                 enableMarkdown: function() {
                     enableMarkdown()
@@ -596,17 +614,6 @@
                 });
             }
         }
-    });
-
-    // init code
-    $(function() {
-        $('textarea[data-uk-htmleditor]').each(function() {
-            var editor = $(this), obj;
-
-            if (!editor.data('htmleditor')) {
-                obj = UI.htmleditor(editor, UI.Utils.options(editor.attr('data-uk-htmleditor')));
-            }
-        });
     });
 
     return UI.htmleditor;

@@ -5,17 +5,17 @@
 
     var component;
 
-    if (jQuery && jQuery.UIkit) {
-        component = addon(jQuery, jQuery.UIkit);
+    if (window.UIkit) {
+        component = addon(UIkit);
     }
 
     if (typeof define == "function" && define.amd) {
         define("uikit-pagination", ["uikit"], function(){
-            return component || addon(jQuery, jQuery.UIkit);
+            return component || addon(UIkit);
         });
     }
 
-})(function($, UI){
+})(function(UI){
 
     "use strict";
 
@@ -33,6 +33,21 @@
             onSelectPage   : function() {}
         },
 
+        boot: function() {
+
+            // init code
+            UI.ready(function(context) {
+
+                UI.$("[data-uk-pagination]", context).each(function(){
+                    var ele = UI.$(this);
+
+                    if (!ele.data("pagination")) {
+                        var obj = UI.pagination(ele, UI.Utils.options(ele.attr("data-uk-pagination")));
+                    }
+                });
+            });
+        },
+
         init: function() {
 
             var $this = this;
@@ -43,7 +58,7 @@
 
             this.on("click", "a[data-page]", function(e){
                 e.preventDefault();
-                $this.selectPage($(this).data("page"));
+                $this.selectPage(UI.$(this).data("page"));
             });
 
             this._render();
@@ -67,7 +82,7 @@
             this.render(pages);
 
             this.options.onSelectPage.apply(this, [pageIndex]);
-            this.trigger('uk.pagination.select', [pageIndex, this]);
+            this.trigger('select.uk.pagination', [pageIndex, this]);
         },
 
         _render: function() {
@@ -119,25 +134,13 @@
             var $this = this, item, link, options;
 
             pageIndex = pageIndex < 0 ? 0 : (pageIndex < this.pages ? pageIndex : this.pages - 1);
-            options   = $.extend({ text: pageIndex + 1 }, opts);
+            options   = UI.$.extend({ text: pageIndex + 1 }, opts);
 
             item = (pageIndex == this.currentPage) ? '<li class="uk-active"><span>' + (options.text) + '</span></li>'
                                                    : '<li><a href="#page-'+(pageIndex+1)+'" data-page="'+pageIndex+'">'+options.text+'</a></li>';
 
             this.element.append(item);
         }
-    });
-
-    // init code
-    UI.ready(function(context) {
-
-        $("[data-uk-pagination]", context).each(function(){
-            var ele = $(this);
-
-            if (!ele.data("pagination")) {
-                var obj = UI.pagination(ele, UI.Utils.options(ele.attr("data-uk-pagination")));
-            }
-        });
     });
 
     return UI.pagination;

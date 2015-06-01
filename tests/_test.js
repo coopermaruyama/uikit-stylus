@@ -1,4 +1,4 @@
-(function(iniframe){
+(function(iniframe, $){
 
     window.CustomizerForceUpdate = iniframe;
 
@@ -11,11 +11,10 @@
         'dist/css/uikit{style}.css',
 
         // components
+        'dist/css/components/accordion{style}.css',
         'dist/css/components/autocomplete{style}.css',
-        'dist/css/components/cover{style}.css',
         'dist/css/components/datepicker{style}.css',
         'dist/css/components/dotnav{style}.css',
-        'dist/css/components/flex{style}.css',
         'dist/css/components/form-advanced{style}.css',
         'dist/css/components/form-file{style}.css',
         'dist/css/components/form-password{style}.css',
@@ -24,10 +23,14 @@
         'dist/css/components/nestable{style}.css',
         'dist/css/components/notify{style}.css',
         'dist/css/components/placeholder{style}.css',
+        'dist/css/components/progress{style}.css',
         'dist/css/components/search{style}.css',
         'dist/css/components/slidenav{style}.css',
+        'dist/css/components/slider{style}.css',
+        'dist/css/components/slideshow{style}.css',
         'dist/css/components/sortable{style}.css',
         'dist/css/components/sticky{style}.css',
+        'dist/css/components/tooltip{style}.css',
         'dist/css/components/upload{style}.css'
     ];
 
@@ -55,12 +58,11 @@
         'src/js/core/offcanvas.js',
         'src/js/core/switcher.js',
         'src/js/core/tab.js',
-        'src/js/core/tooltip.js'
+        'src/js/core/cover.js'
 
     ]).forEach(function(script) {
         document.writeln('<script src="'+base+script+'"></script>');
     });
-
 
     if (iniframe) {
         document.writeln('<style data-compiled-css>@import url("../dist/css/uikit.css"); </style>');
@@ -75,12 +77,16 @@
             "core/article",
             "core/badge",
             "core/base",
+            "core/block",
             "core/breadcrumb",
             "core/button",
             "core/close",
             "core/comment",
+            "core/contrast",
+            "core/cover",
             "core/description-list",
             "core/dropdown",
+            "core/flex",
             "core/form",
             "core/grid",
             "core/icon",
@@ -92,7 +98,6 @@
             "core/overlay",
             "core/pagination",
             "core/panel",
-            "core/progress",
             "core/scrollspy",
             "core/smooth-scroll",
             "core/subnav",
@@ -101,39 +106,51 @@
             "core/table",
             "core/text",
             "core/thumbnail",
+            "core/thumbnav",
             "core/toggle",
-            "core/tooltip",
+            "core/touch",
             "core/utility",
 
         "::Components",
 
+            "components/accordion",
             "components/autocomplete",
-            "components/cover",
             "components/datepicker",
             "components/dotnav",
-            "components/flex",
             "components/form-advanced",
             "components/form-file",
             "components/form-password",
             "components/form-select",
+            "components/grid-js",
             "components/htmleditor",
+            "components/lightbox",
             "components/nestable",
             "components/notify",
             "components/pagination-js",
+            "components/parallax",
             "components/placeholder",
+            "components/progress",
             "components/search",
             "components/slidenav",
+            "components/slider",
+            "components/slideshow",
+            "components/slideset",
             "components/sortable",
             "components/sticky",
             "components/timepicker",
+            "components/tooltip",
             "components/upload"
+
     ];
+
 
     document.addEventListener("DOMContentLoaded", function(event) {
 
-        var $body = $("body").css("visibility", "hidden"), $scriptest = $(scriptest);
+        $ = jQuery.noConflict();
 
-        var controls = $('<div class="uk-form uk-margin-top uk-margin-bottom uk-container uk-container-center"></div>');
+        var $body      = $("body").css("visibility", "hidden"),
+            $scriptest = $(scriptest),
+            controls   = $('<div class="uk-form uk-margin-top uk-margin-bottom uk-container uk-container-center"></div>');
 
         // test select
 
@@ -145,10 +162,10 @@
 
             var value = this, name = value.split("/").slice(-1)[0];
 
-            name  = name.charAt(0).toUpperCase() + name.slice(1);
+            name = name.charAt(0).toUpperCase() + name.slice(1);
 
             if (value.indexOf('::')===0) {
-                optgroup   = $('<optgroup label="'+value.replace('::', '')+'"></optgroup>').appendTo(testselect);
+                optgroup = $('<optgroup label="'+value.replace('::', '')+'"></optgroup>').appendTo(testselect);
                 return;
             }
 
@@ -156,7 +173,7 @@
         });
 
         testselect.val(testselect.find("option[value$='"+((location.href.match(/overview/) ? '':'/') + location.href.split("/").slice(-1)[0])+"']").attr("value")).on("change", function(){
-            if(testselect.val()) location.href = testfolder+testselect.val();
+            if (testselect.val()) location.href = testfolder+testselect.val();
         });
 
         controls.prepend(testselect);
@@ -165,7 +182,7 @@
 
             $.get(base+"themes.json", {nocache:Math.random()}).always(function(data, type){
 
-                var theme      = localStorage["uikit.theme"] || 'default',
+                var theme  = localStorage["uikit.theme"] || 'default',
                     themes = {
                         "default"      : {"name": "Default", "url":"themes/default"},
                         "almost-flat"  : {"name": "Almost Flat", "url":"themes/default"},
@@ -181,17 +198,20 @@
                     });
                 }
 
-                theme  = localStorage["uikit.theme"] || 'default';
-                theme  = themes[theme] ? theme : 'default';
+                theme = localStorage["uikit.theme"] || 'default';
+                theme = themes[theme] ? theme : 'default';
 
                 // themes
-                var themeselect = $('<select></select>');
+                var themeselect = $('<select><option value="">Select a theme...</option></select>');
 
                 $.each(themes, function(key){
                     themeselect.append('<option value="'+key+'">'+themes[key].name+'</option>');
                 });
 
                 themeselect.val(theme).on("change", function(){
+
+                    if (!themeselect.val()) return;
+
                     localStorage["uikit.theme"] = themeselect.val();
                     location.reload();
                 });
@@ -203,12 +223,9 @@
                 styles.forEach(function(style) {
 
                     style = $('<link rel="stylesheet" href="'+base+(style.replace('{style}', theme=='default' ? '':'.'+theme))+'">');
-
                     $style.after(style);
-
                     $style = style;
                 });
-
 
                 setTimeout(function() { $body.css("visibility", ""); $(window).trigger("resize"); }, 500);
             });

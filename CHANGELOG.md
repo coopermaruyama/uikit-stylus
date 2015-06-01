@@ -1,5 +1,295 @@
 # Changelog
 
+### 2.21.0 (June 01, 2015)
+
+  - IMPORTANT: Reworked nestable component
+  - Added uk-active class to form-select component
+  - Added uk-flex-nowrap class to flex component
+  - Added uk-icon-justify class to icon component
+  - Added kenburnsanimations option to slideshow component
+  - Added media option to parallax component
+  - Added connect multiple sortable lists
+  - Added activeClass option to tooltip component
+  - Added ignorestacked option to gridMatchHeight component
+  - Added UIkit.responsiveElement component (e.g. for iframes)
+  - Added UIkit.Utils.isFullscreen helper function
+  - Updated UIkit.modal.alert, UIkit.modal.prompt, UIkit.modal.confirm don't close open modals
+  - Updated tooltip component to look for an updated title attribute before show
+  - Updated timepicker to be initialized on a parent element
+  - Updated slideset filter activation
+  - Updated changed event from focus.uk.slider to focusitem.uk.slider
+  - Removed warp mode from sortable component
+  - Fixed tab component having no items
+  - Fixed slideset nav
+  - Fixed nestable maxdepth check when moving items between lists
+  - Fixed gulp css minifier
+
+  **Docs and Repo**
+
+  - Updated dynamic grid test and docs
+  - Updated sortable test and docs
+  - Updated nestable test and docs
+  - Updated icon test and docs
+
+### 2.20.3 (May 04, 2015)
+  - Updated jQuery to 2.1.4
+  - Updated grid match items to wrap onto multiple lines
+  - Fixed Slider animation on iOS
+  - Fixed Modal show when no modal container exists
+  - Fixed data-uk-grid-match for IE9
+
+### 2.20.2 (April 30, 2015)
+  - Updated hover delay for dropdown component
+  - Updated requestAnimationFrame polyfill
+
+### 2.20.1 (April 28, 2015)
+  - Added active state for table rows
+  - Added new hooks to table component
+  - Fixed panel title margin
+
+### 2.20.0 (April 24, 2015)
+  - Added block component
+  - Added contrast component
+  - Added alternatives to native dialogs for window.alert, window.confirm, window.prompt
+  - Added heading hooks to base component
+  - Added support for indeterminate state in form-advanced
+  - Added autoplay to slideset component
+  - Added position option to datepicker
+  - Added start and end option for the timepicker component
+  - Updated hover delay for dropdown component
+  - Updated event name select.uk.autocomplete to selectitem.uk.autocomplete
+  - Fixed slider on touch devices
+  - Fixed link reset on focus
+  - Fixed overflow hidden on expanded accordion content
+  - Fixed smooth scroll options with offcanvas menu links
+  - Fixed touch detection (no longer dependent on user agent)
+  - Fixed links in slideset component
+  - Fixed slider with gutter in center mode
+  - Fixed sticky element with animation flickering
+
+  **Docs and Repo**
+
+  - Added docs and tests for block component
+  - Added docs and tests for contrast component
+  - Updated parallax docs
+
+### 2.19.0 (April 17, 2015)
+  - Added parallax component
+  - Added slideset component
+  - Added slider component
+  - Added custom animation duration for kenburns effect (slideshow component)
+  - Added support for overlaying an image with a second image to overlay component
+  - Added position class to set a z-index
+  - Added overflow hidden class to utility component
+  - Added trigger 'input' after htmleditor change
+  - Added filter option to dynamic grid
+  - Added define horizontal and vertical gutter for dynamic grid
+  - Added UIkit.init([rootelement]) added to manually init js components
+  - Added trigger ```hide.uk.dropdown``` when dropdown is closed
+  - Added location reminder to customizer when reloading the page
+  - Updated error handling if lightbox resource not found
+  - Updated trigger datepicker dropdown on focus
+  - Fixed hide opened autocomplete dropdowns on autocomplete show
+  - Fixed lightbox extension matcher is now case insensitive
+  - Fixed slideshow autoplay
+  - Fixed datepicker to use minDate option as initial value if provided
+  - Fixed slideshow on message handler
+  - Fixed nestable component events + empty lists
+  - Fixed nestable list helper function
+  - Fixed nestable event arguments
+  - Fixed 12hr format for Timepicker
+  - Fixed switcher text selection for IE11
+  - Fixed slideshow jumping in chrome
+  - Fixed scrolling on large modal dialogs
+
+### 2.18.0 (March 11, 2015)
+
+  - Added ARIA support to JavaScript components
+  - Added trigger ```scrolling.uk.document``` after update grid layout
+  - Fixed sticky wrapper resize on window resize/orientation change
+  - Fixed serialize to only include data attributes from HTML in nestable and sortable component
+  - Fixed video mute bug in slideshow for vimeo player
+
+
+### 2.17.0 (February 20, 2015)
+
+  - IMPORTANT: Removed caption component (Use overlay component)
+  - IMPORTANT: Removed uk-grid-preserve (Use uk-grid-medium)
+  - IMPORTANT: Moved flex and cover component into the core
+  - IMPORTANT: Moved tooltip and progress from core to components
+  - DEPRECATED: Old overlay component (uk-overlay-area-* uk-overlay-caption uk-overlay-toggle)
+  - DEPRECATED: Thumbnail component
+  - DEPRECATED: uk-dotnav-vertical class (Use uk-flex-column)
+  - Reworked overlay component completely
+  - Added thumbnav component
+  - Added gutter collapse and medium classes to grid component
+  - Added more position classes to utility component
+  - Added hover classes to panel component
+  - Added icon hover class to icon component
+  - Added uk-heading-large default values for small screens in utility component
+  - Added serialize method to sortable object
+  - Added possibility to enable and disable sticky component objects
+  - Added scrollspy group with target selector
+  - Added possibility to create dynamic lightboxes
+  - Added manualclose.uk.notify and close.uk.notify events
+  - Added pauseOnHover option to slideshow component
+  - Added toggle uk-active class in sort and filter controls (dynamic grid)
+  - Added boundary parameter to sticky addon to bind sticky scrolling to an element
+  - Updated dotnav to use flexbox
+  - Updated subnav to use flexbox
+  - Updated icon component to FontAwesome to 4.3.0
+  - Set content wrapper height to auto after accordion animation ends
+  - Deactivated browser history navigation in modal for IE11
+  - Fixed modal caption text overflow
+  - Fixed modal min-height. Now only applies to lightbox modifier
+  - Fixed events in grid js component
+  - Fixed quick switching between tabs
+  - Fixed deep target selector for data-uk-grid-match
+  - Fixed goto dom trigger for slideshows
+  - Fixed vertical centering for lightboxes
+
+  **Docs and Repo**
+
+  - Updated overlay docs and tests
+  - Updated panel docs and tests
+  - Updated grid docs and tests
+  - Updated icon docs and tests
+  - Updated animation docs
+  - Updated text tests
+
+### 2.16.2 (January 15, 2015)
+
+  - Updated modal header and footer
+  - Fixed ```data-uk-grid-match``` with target option
+
+### 2.16.1 (January 15, 2015)
+  - Added mirroring of icons in RTL mode
+  - Added destroy lightbox content on hide
+  - Added UIkit.Utils.stackMargin + UIkit.Utils.matchHeights helper methods
+  - Updated boot code for accordion, grid and lightbox component
+  - Fixed form normalization in form component
+
+### 2.16.0 (January 13, 2015)
+  - IMPORTANT: Renamed uk-modal-dialog-frameless to uk-modal-dialog-lightbox
+  - Added dynamic grid component
+  - Added accordion component
+  - Added lightbox component
+  - Added text left small and medium classes
+  - Added timeout before muting media in slideshow
+  - Fixed buttons for input elements
+  - Fixed uk-hidden-touch and uk-hidden-notouch with !important
+
+  **Docs and Repo**
+
+  - Added docs and tests for new add-ons
+  - Updated modal docs and tests
+  - Updated form tests
+
+### 2.15.0 (December 22, 2014)
+  - IMPORTANT: Renamed uk-slidenav-inverted to uk-slidenav-contrast
+  - Added header, footer, caption and spinner to modal component
+  - Added dotnav-contrast to dotnav component
+  - Added hidden classes for touch devices to utility component
+  - Added center option for modals
+  - Better dimension recognition in cover component
+  - Iframes with the class uk-responsive-width behave like responsive images now (via JavaScript)
+  - Fixed Slideshow without a parent container + fold effect
+  - Fixed unprefixed autocomplete dropdown flip + search dropdown
+  - Fixed switcher with animations for IE < 10
+  - Fixed toggler with animations for IE < 10
+  - Fixed clearfix method
+
+  **Docs and Repo**
+
+  - Updated slidenav docs and tests
+  - Updated dotnav docs and tests
+  - Updated modal docs and tests
+
+### 2.14.0 (December 10, 2014)
+  - IMPORTANT: Replaced uk-position-absolute with uk-position-top
+  - Added uk-panel-hover to panel component
+  - Added uk-text-contrast to text component
+  - Added uk-position-bottom to utility component
+  - Updated panels to work with anchors
+  - Fixed fullscreen slideshows for iOS < 8
+  - Fixed [data-uk-observe]
+  - Fixed tab component with only one tab
+
+  **Docs and Repo**
+
+  - Updated panel docs and tests
+  - Updated dotnav tests
+
+### 2.13.1 (December 05, 2014)
+  - Fixed clearfix method when used with flex
+  - Fixed IE error causing UIkit crash
+  - Fixed data-uk-margin in Firefox
+  - Fixed slideshow triggers active status
+  - Fixed native datepicker recognition in datepicker component
+  - Fixed uk-responsive-width when uk-img-preserve is used
+
+### 2.13.0 (December 04, 2014)
+  - IMPORTANT: Triggered event names changed
+  - DEPRECATED: $.UIkit, UIkit is now globally available
+  - Added uk-grid-match class to grid component
+  - Added flex order classes for different breakpoints
+  - Added slidenav-inverted modifier
+  - Added prevent registering a component multiple times with the same name
+  - Added direction info to the uk-scroll event
+  - Added UIkit.Utils.str2json helper function
+  - Added prefix gulp task to build custom prefixed uikit
+  - Added no conflict mode $.UIkit.noConflict(prefixname)
+  - Added UIkit.$body reference on domready
+  - Updated grid to use flex
+  - Updated active paremeter for the switcher component to allow false as value
+  - Disable pointer events none on iframes in slideshows on touch devices
+  - Fixed initial flex-shrink value in IE10
+  - Fixed form legend in IE9
+  - Fixed automute in slideshow component
+  - Fixed hidden text in dotnav
+  - Fixed nestable serialize method
+  - Fixed prevent editing form fields within a sortable component
+
+  **Docs and Repo**
+
+  - Added triggered event names
+
+### 2.12.0 (November 11, 2014)
+
+  - IMPORTANT: Renamed uk-animation-10 to uk-animation-15
+  - DEPRECATED: uk-overlay-caption class
+  - Added slideshow component
+  - Added caption component
+  - Added new classes to flex component
+  - Added switcher animations
+  - Added toggle animation option
+  - Added smooth scroll helper function
+  - Added missing sortable theme files
+  - Added missing form-advanced theme files
+  - Added Less error handler for gulp task
+  - Added "use strict" to all JavaScript files
+  - Added uk-animation-hover class
+  - Better timing-function for reverse animations
+  - Trigger uk.check.display on context element if no related children found
+  - Updated moment.js in datepicker component
+  - Updated and cleanup core.js
+  - Updated ```gulp watch``` behaviour
+  - Fixed slidenav position class
+  - Fixed and replaced $(window).height() with window.innerHeight
+  - Fixed datepicker z-index
+  - Fixed nestable not triggering change event
+  - Fixed anchor links in offcanvas menu
+  - Fixed hidden text in dotnav if text is right aligned
+  - Fixed Saas port (false math calculation in grid component)
+  - Fixed IE11 touch support
+
+**Docs and Repo**
+
+  - Added docs and tests for new add-ons
+  - Updated switcher docs and tests
+  - Updated flex test
+  - Updated sortable test
+
 ### 2.11.1 (October 13, 2014)
 
   - Fixed dropdown z-index
@@ -39,7 +329,7 @@
 ### 2.10.0 (September 15, 2014)
 
  - Added input types for iOS style reset to form component
- - Updated icon component to Font Awesome to 4.2.0
+ - Updated icon component to FontAwesome to 4.2.0
  - Moved normalization into base, form, button and form component
  - Removed normalize component
  - Fixed upload select works only once if filename is the same
@@ -147,7 +437,7 @@
   - Removed breaking strings on small devices by default from base
   - Prevent search-field uk-active issue
   - Updated dropdown flip and stack behavior
-  - Updated icon component to Font Awesome to 4.1
+  - Updated icon component to FontAwesome to 4.1
 
 **Docs and Repo**
 
@@ -327,7 +617,7 @@
   - Added outerclick support for dropdowns in hover mode
   - Added touch events support for Windows 8 phones
   - Added miscellaneous hooks
-  - Updated icon component to Font Awesome to 4.0.3
+  - Updated icon component to FontAwesome to 4.0.3
   - Changed comments to compile nicer CSS output
 
 **Docs and Repo**

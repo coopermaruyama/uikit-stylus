@@ -2,20 +2,21 @@
 
     var component;
 
-    if (jQuery && jQuery.UIkit) {
-        component = addon(jQuery, jQuery.UIkit);
+    if (window.UIkit) {
+        component = addon(UIkit);
     }
 
     if (typeof define == "function" && define.amd) {
         define("uikit-upload", ["uikit"], function(){
-            return component || addon(jQuery, jQuery.UIkit);
+            return component || addon(UIkit);
         });
     }
 
-})(function($, UI){
+})(function(UI){
+
+    "use strict";
 
     UI.component('uploadSelect', {
-
 
         init: function() {
 
@@ -48,7 +49,7 @@
                     e.preventDefault();
 
                     $this.element.removeClass($this.options.dragoverClass);
-                    $this.element.trigger('uk.dropped', [e.dataTransfer.files]);
+                    $this.element.trigger('dropped.uk.upload', [e.dataTransfer.files]);
 
                     xhrupload(e.dataTransfer.files, $this.options);
                 }
@@ -92,7 +93,7 @@
     })();
 
     if (UI.support.ajaxupload){
-        $.event.props.push("dataTransfer");
+        UI.$.event.props.push("dataTransfer");
     }
 
     function xhrupload(files, settings) {
@@ -101,7 +102,7 @@
             return this;
         }
 
-        settings = $.extend({}, xhrupload.defaults, settings);
+        settings = UI.$.extend({}, xhrupload.defaults, settings);
 
         if (!files.length){
             return;
@@ -196,7 +197,7 @@
 
                     if (settings.type=="json") {
                         try {
-                            response = $.parseJSON(response);
+                            response = UI.$.parseJSON(response);
                         } catch(e) {
                             response = false;
                         }
