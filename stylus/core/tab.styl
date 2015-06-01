@@ -28,7 +28,7 @@ tab-disabled-color = rgb(153, 153, 153, 1)
  * Micro clearfix on the deepest container
  */
 .uk-tab:before, .uk-tab:after
-  content " "
+  content ""
   display table
 .uk-tab:after
   clear both
@@ -77,7 +77,7 @@ tab-disabled-color = rgb(153, 153, 153, 1)
 /* Disabled */
 .uk-tab > li.uk-disabled > a
   color tab-disabled-color
-  cursor auto
+  cursor text
   @extend .hook-tab-disabled
 .uk-tab > li.uk-disabled > a:hover, .uk-tab > li.uk-disabled > a:focus, .uk-tab > li.uk-disabled.uk-active > a
   background none
@@ -108,7 +108,7 @@ tab-disabled-color = rgb(153, 153, 153, 1)
   border-bottom none
   border-top tab-border-width solid tab-border
 .uk-tab-center:before, .uk-tab-center:after
-  content " "
+  content ""
   display table
 .uk-tab-center:after
   clear both
@@ -181,8 +181,8 @@ tab-disabled-color = rgb(153, 153, 153, 1)
 /* Modifier: 'tab-left', 'tab-right'
  ========================================================================== */
 /* Tablet and bigger */
-var7da55124a94b1d472a4b18a7 = "(min-width: " + breakpoint-medium + ")"
-@media var7da55124a94b1d472a4b18a7
+var34f1f25ca46ddd68b242eb98 = "(min-width: " + breakpoint-medium + ")"
+@media var34f1f25ca46ddd68b242eb98
   .uk-tab-left, .uk-tab-right
     border-bottom none
   .uk-tab-left > li, .uk-tab-right > li

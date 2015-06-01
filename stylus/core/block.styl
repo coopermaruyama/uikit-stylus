@@ -1,0 +1,110 @@
+lesscss-percentage(n)
+  (n * 100)%
+block-padding-vertical = 20px
+block-padding-vertical-large = 50px
+block-large-padding-vertical = block-padding-vertical
+block-large-padding-vertical-medium = block-padding-vertical-large
+block-large-padding-vertical-large = 100px
+block-default-background = rgb(255, 255, 255, 1)
+block-muted-background = rgb(249, 249, 249, 1)
+block-primary-background = rgb(0, 168, 230, 1)
+block-secondary-background = rgb(34, 34, 34, 1)
+/* ========================================================================
+   Component: Block
+ ========================================================================== */
+.uk-block
+  position relative
+  -moz-box-sizing border-box
+  box-sizing border-box
+  padding-top block-padding-vertical
+  padding-bottom block-padding-vertical
+  @extend .hook-block
+/* Phone landscape and bigger */
+vara541d1d70f59a30c4775de56 = "(min-width: " + breakpoint-medium + ")"
+@media vara541d1d70f59a30c4775de56
+  .uk-block
+    padding-top block-padding-vertical-large
+    padding-bottom block-padding-vertical-large
+/*
+ * Micro clearfix to make blocks more robust
+ */
+.uk-block:before, .uk-block:after
+  content ""
+  display table
+.uk-block:after
+  clear both
+/*
+ * Remove margin from the last-child
+ */
+.uk-block > :last-child
+  margin-bottom 0
+/* Padding Modifier
+ ========================================================================== */
+/*
+ * Large padding
+ */
+.uk-block-large
+  padding-top block-large-padding-vertical
+  padding-bottom block-large-padding-vertical
+/* Tablets and bigger */
+var5a1c7e7cf1b8f80619e2292e = "(min-width: " + breakpoint-medium + ")"
+@media var5a1c7e7cf1b8f80619e2292e
+  .uk-block-large
+    padding-top block-large-padding-vertical-medium
+    padding-bottom block-large-padding-vertical-medium
+/* Desktop and bigger */
+varf886c18412643e82701ea97e = "(min-width: " + breakpoint-large + ")"
+@media varf886c18412643e82701ea97e
+  .uk-block-large
+    padding-top block-large-padding-vertical-large
+    padding-bottom block-large-padding-vertical-large
+/* Color Modifier
+ ========================================================================== */
+/*
+ * Default
+ */
+.uk-block-default
+  background block-default-background
+  @extend .hook-block-default
+/*
+ * Muted
+ */
+.uk-block-muted
+  background block-muted-background
+  @extend .hook-block-muted
+/*
+ * Primary
+ */
+.uk-block-primary
+  background block-primary-background
+  @extend .hook-block-primary
+/*
+ * Secondary
+ */
+.uk-block-secondary
+  background block-secondary-background
+  @extend .hook-block-secondary
+/*
+ * Adjust padding between equal colored blocks
+ */
+.uk-block-default + .uk-block-default, .uk-block-muted + .uk-block-muted, .uk-block-primary + .uk-block-primary, .uk-block-secondary + .uk-block-secondary
+  padding-top 0
+@extend .hook-block-misc
+hook-block()
+.hook-block
+  hook-block()
+hook-block-default()
+.hook-block-default
+  hook-block-default()
+hook-block-muted()
+.hook-block-muted
+  hook-block-muted()
+hook-block-secondary()
+.hook-block-secondary
+  hook-block-secondary()
+hook-block-primary()
+.hook-block-primary
+  hook-block-primary()
+hook-block-misc()
+.hook-block-misc
+  hook-block-misc()

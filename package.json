@@ -20,11 +20,13 @@
     }
   ],
   "dependencies": {
+    "async": "latest",
+    "less2stylus": "latest",
+    "node": "0.0.0",
     "node-promise": "^0.5.10",
     "recursive": "0.0.2",
-    "less2stylus": "latest",
-    "async": "latest",
-    "recursive-readdir": "latest"
+    "recursive-readdir": "^1.2.1",
+    "stylus": "^0.51.1"
   },
   "devDependencies": {
     "browser-sync": "^2.6.5",

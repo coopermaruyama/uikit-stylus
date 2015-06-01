@@ -12,7 +12,7 @@ lesscss-percentage(n)
   animation-fill-mode both
 /* Hide animated element if scrollspy is used */
 @media screen
-  [data-uk-scrollspy*='uk-animation-']
+  [data-uk-scrollspy*='uk-animation-']:not([data-uk-scrollspy*='target'])
     opacity 0
 /*
  * Fade
@@ -66,13 +66,13 @@ lesscss-percentage(n)
 .uk-animation-reverse
   -webkit-animation-direction reverse
   animation-direction reverse
-  -webkit-animation-timing-function ease-out
-  animation-timing-function ease-out
+  -webkit-animation-timing-function ease-in
+  animation-timing-function ease-in
 /* Duration modifiers
 ========================================================================== */
-.uk-animation-10
-  -webkit-animation-duration 10s
-  animation-duration 10s
+.uk-animation-15
+  -webkit-animation-duration 15s
+  animation-duration 15s
 /* Origin modifiers
 ========================================================================== */
 .uk-animation-top-left
@@ -99,6 +99,15 @@ lesscss-percentage(n)
 .uk-animation-bottom-right
   -webkit-transform-origin 100% 100%
   transform-origin 100% 100%
+/* Sub-object: `uk-animation-hover`
+========================================================================== */
+/*
+ * Enable animation only on hover
+ * Note: Firefox also needs this because animations are not triggered when switching between display `hidden` and `block`
+ */
+.uk-animation-hover:not(:hover), .uk-animation-hover:not(:hover) [class*='uk-animation-'], .uk-touch .uk-animation-hover:not(.uk-hover), .uk-touch .uk-animation-hover:not(.uk-hover) [class*='uk-animation-']
+  -webkit-animation-name none
+  animation-name none
 /* Keyframes: Fade
  * Used by dropdown, datepicker and slideshow component
  ========================================================================== */
@@ -304,7 +313,7 @@ lesscss-percentage(n)
   100%
     transform scale(1)
 /* Keyframes: Rotate
- * Used by icon and search component
+ * Used by icon component
  ========================================================================== */
 @-webkit-keyframes uk-rotate
   0%

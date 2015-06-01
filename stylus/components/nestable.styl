@@ -1,19 +1,14 @@
 lesscss-percentage(n)
   (n * 100)%
 nestable-padding-left = 40px
+nestable-item-margin = 10px
 nestable-dragged-z-index = 1050
-nestable-item-margin-bottom = 10px
-nestable-item-padding = 5px
-nestable-item-background = rgb(245, 245, 245, 1)
 nestable-placeholder-border = rgb(221, 221, 221, 1)
-nestable-empty-height = 40px
-nestable-handle-font-size = 18px
-nestable-handle-color = rgb(221, 221, 221, 1)
-nestable-handle-icon = "\f0c9"
-nestable-toggle-color = rgb(153, 153, 153, 1)
-nestable-toggle-hover-color = rgb(68, 68, 68, 1)
+nestable-empty-height = 30px
 nestable-toggle-icon = "\f147"
 nestable-toggle-collapsed-icon = "\f196"
+nestable-panel-padding = 5px
+nestable-panel-background = rgb(245, 245, 245, 1)
 /* ========================================================================
    Component: Nestable
  ========================================================================== */
@@ -21,98 +16,124 @@ nestable-toggle-collapsed-icon = "\f196"
   padding 0
   list-style none
   @extend .hook-nestable
+/*
+ * Disables the default callout shown when you touch and hold a touch target
+ * Currently only works in Webkit
+ */
+.uk-nestable a, .uk-nestable img
+  -webkit-touch-callout none
 /* Sub-object `uk-nestable-list`
  ========================================================================== */
 .uk-nestable-list
   margin 0
   padding-left nestable-padding-left
   list-style none
-/* Sub-modifier `uk-nestable-list-dragged`
+/* Sub-modifier `uk-nestable-item`
  ========================================================================== */
-.uk-nestable-list-dragged
+/*
+ * 1. Deactivate browser touch actions in IE11
+ */
+.uk-nestable-item
+  /* 1 */
+  touch-action none
+  @extend .hook-nestable-item
+.uk-nestable-item + .uk-nestable-item
+  margin-top nestable-item-margin
+.uk-nestable-list:not(.uk-nestable-dragged) > .uk-nestable-item:first-child
+  margin-top nestable-item-margin
+/* Sub-modifier `uk-nestable-dragged`
+ ========================================================================== */
+/*
+ * 1. Reset style
+ */
+.uk-nestable-dragged
   position absolute
   z-index nestable-dragged-z-index
-  padding-left 0
   pointer-events none
-  @extend .hook-nestable-list-dragged
-/* Sub-object `uk-nestable-item`
- ========================================================================== */
-.uk-nestable-item
-  margin-bottom nestable-item-margin-bottom
-  padding nestable-item-padding
-  background nestable-item-background
-  @extend .hook-nestable-item
-/* Sub-object `uk-nestable-placeholder`
- * The placeholder which marks the drop area
+  /* 1 */
+  padding-left 0
+  @extend .hook-nestable-dragged
+/* Sub-modifier `uk-nestable-placeholder`
  ========================================================================== */
 .uk-nestable-placeholder
-  -moz-box-sizing border-box
-  box-sizing border-box
-  margin-bottom nestable-item-margin-bottom
+  position relative
+.uk-nestable-placeholder > *
+  opacity 0
+.uk-nestable-placeholder:after
+  content ''
+  position absolute
+  top 0
+  bottom 0
+  left 0
+  right 0
   border 1px dashed nestable-placeholder-border
+  opacity 1
   @extend .hook-nestable-placeholder
-/* Sub-object `uk-nestable-empty`
- * The style of an empty list
+/* Empty List
  ========================================================================== */
-.uk-nestable-empty
+.uk-nestable:empty
   min-height nestable-empty-height
   @extend .hook-nestable-empty
 /* Sub-object `uk-nestable-handle`
  ========================================================================== */
+/*
+ * Deactivate browser touch actions in IE11
+ */
 .uk-nestable-handle
-  display inline-block
-  font-size nestable-handle-font-size
-  color nestable-handle-color
-  @extend .hook-nestable-handle
+  touch-action none
 /* Hover */
 .uk-nestable-handle:hover
   cursor move
-/* Icon */
-.uk-nestable-handle:after
-  content nestable-handle-icon
-  font-family FontAwesome
 /* Sub-object `uk-nestable-moving`
  ========================================================================== */
 .uk-nestable-moving, .uk-nestable-moving *
   cursor move
-/* Sub-object `[data-action='toggle']`
+/* [data-nestable-action='toggle']
  ========================================================================== */
-/* Hidden by default */
+/*
+ * 1. Makes text unselectable. Happens if double clicked by mistake
+ */
 [data-nestable-action='toggle']
+  cursor pointer
+  /* 1 */
+  -moz-user-select none
+  -webkit-user-select none
+  -ms-user-select none
+  user-select none
+/* Sub-object `.uk-nestable-toggle`
+ ========================================================================== */
+.uk-nestable-toggle
   display inline-block
-  color nestable-toggle-color
   visibility hidden
   @extend .hook-nestable-toggle
-/* Hover */
-[data-nestable-action='toggle']:hover
-  color nestable-toggle-hover-color
-  cursor pointer
-/* Icon */
-[data-nestable-action='toggle']:after
+.uk-nestable-toggle:after
   content nestable-toggle-icon
   font-family FontAwesome
-/*
- * Show if nested
- */
-.uk-parent > .uk-nestable-item [data-nestable-action='toggle']
+.uk-parent > :not(.uk-nestable-list) .uk-nestable-toggle
   visibility visible
 /*
  * Collapsed
  */
-.uk-collapsed > .uk-nestable-item [data-nestable-action='toggle']:after
-  content nestable-toggle-collapsed-icon
 .uk-collapsed .uk-nestable-list
   display none
+.uk-collapsed .uk-nestable-toggle:after
+  content nestable-toggle-collapsed-icon
+/* Sub-object `uk-nestable-panel`
+ ========================================================================== */
+.uk-nestable-panel
+  padding nestable-panel-padding
+  background nestable-panel-background
+  @extend .hook-nestable-panel
 @extend .hook-nestable-misc
 hook-nestable()
 .hook-nestable
   hook-nestable()
-hook-nestable-list-dragged()
-.hook-nestable-list-dragged
-  hook-nestable-list-dragged()
 hook-nestable-item()
 .hook-nestable-item
   hook-nestable-item()
+hook-nestable-dragged()
+.hook-nestable-dragged
+  hook-nestable-dragged()
 hook-nestable-placeholder()
 .hook-nestable-placeholder
   hook-nestable-placeholder()
@@ -125,6 +146,9 @@ hook-nestable-handle()
 hook-nestable-toggle()
 .hook-nestable-toggle
   hook-nestable-toggle()
+hook-nestable-panel()
+.hook-nestable-panel
+  hook-nestable-panel()
 hook-nestable-misc()
 .hook-nestable-misc
   hook-nestable-misc()

@@ -10,6 +10,7 @@ text-primary-color = rgb(45, 112, 145, 1)
 text-success-color = rgb(101, 159, 19, 1)
 text-warning-color = rgb(226, 131, 39, 1)
 text-danger-color = rgb(216, 80, 48, 1)
+text-contrast-color = rgb(255, 255, 255, 1)
 /* ========================================================================
    Component: Text
  ========================================================================== */
@@ -38,6 +39,8 @@ text-danger-color = rgb(216, 80, 48, 1)
   color text-warning-color !important
 .uk-text-danger
   color text-danger-color !important
+.uk-text-contrast
+  color text-contrast-color !important
 /* Alignment modifiers
  ========================================================================== */
 .uk-text-left
@@ -54,16 +57,20 @@ text-danger-color = rgb(216, 80, 48, 1)
   vertical-align middle !important
 .uk-text-bottom
   vertical-align bottom !important
-/* Only tablets portrait */
-var30acd0a4eb1006f592aa619d = "(max-width: " + breakpoint-medium-max + ")"
-@media var30acd0a4eb1006f592aa619d
+/* Only tablets portrait and smaller */
+varf01dc0c3b2bcaf17001073d6 = "(max-width: " + breakpoint-medium-max + ")"
+@media varf01dc0c3b2bcaf17001073d6
   .uk-text-center-medium
     text-align center !important
+  .uk-text-left-medium
+    text-align left !important
 /* Phone landscape and smaller */
-var17cf6c9f3a9c357c17767786 = "(max-width: " + breakpoint-small-max + ")"
-@media var17cf6c9f3a9c357c17767786
+vara9657192517039ae0f217a6f = "(max-width: " + breakpoint-small-max + ")"
+@media vara9657192517039ae0f217a6f
   .uk-text-center-small
     text-align center !important
+  .uk-text-left-small
+    text-align left !important
 /* Wrap modifiers
  ========================================================================== */
 /*

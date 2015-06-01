@@ -8,6 +8,7 @@ form-advanced-color = transparent
 form-advanced-checked-color = rgb(0, 168, 230, 1)
 form-advanced-radio-size = 8px
 form-advanced-checkbox-icon = "\f00c"
+form-advanced-checkbox-indeterminate-icon = "\f068"
 form-advanced-checkbox-font-size = 12px
 form-advanced-disabled-border = rgb(221, 221, 221, 1)
 form-advanced-disabled-color = rgb(170, 170, 170, 1)
@@ -45,7 +46,7 @@ form-advanced-disabled-color = rgb(170, 170, 170, 1)
 /*
  * Checked
  */
-.uk-form input[type=checkbox]:checked:before, .uk-form input[type=radio]:checked:before
+.uk-form input[type=radio]:before, .uk-form input[type=checkbox]:before
   display block
   @extend .hook-form-advanced-checked
 /* Radio */
@@ -58,7 +59,7 @@ form-advanced-disabled-color = rgb(170, 170, 170, 1)
   background form-advanced-checked-color
   @extend .hook-form-advanced-radio
 /* Checkbox */
-.uk-form input[type=checkbox]:checked:before
+.uk-form input[type=checkbox]:checked:before, .uk-form input[type=checkbox]:indeterminate:before
   content form-advanced-checkbox-icon
   font-family FontAwesome
   font-size form-advanced-checkbox-font-size
@@ -67,6 +68,8 @@ form-advanced-disabled-color = rgb(170, 170, 170, 1)
   line-height (form-advanced-size - (2 * form-advanced-border-width))
   color form-advanced-checked-color
   @extend .hook-form-advanced-checkbox
+.uk-form input[type=checkbox]:indeterminate:before
+  content form-advanced-checkbox-indeterminate-icon
 /*
  * Disabled
  */
@@ -75,7 +78,7 @@ form-advanced-disabled-color = rgb(170, 170, 170, 1)
   @extend .hook-form-advanced-disabled
 .uk-form input[type=radio]:disabled:checked:before
   background-color form-advanced-disabled-color
-.uk-form input[type=checkbox]:disabled:checked:before
+.uk-form input[type=checkbox]:disabled:checked:before, .uk-form input[type=checkbox]:disabled:indeterminate:before
   color form-advanced-disabled-color
 @extend .hook-form-advanced-misc
 hook-form-advanced()

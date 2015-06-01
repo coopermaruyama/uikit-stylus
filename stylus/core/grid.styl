@@ -12,34 +12,43 @@ grid-divider-border-width = 1px
    Component: Grid
  ========================================================================== */
 /*
- * Micro clearfix
- */
-.uk-grid:before, .uk-grid:after
-  content " "
-  display table
-.uk-grid:after
-  clear both
-/*
- * 1. Needed for the gutter
- * 2. Makes grid more robust so that it can be used with other block elements like lists
+ * 1. Makes grid more robust so that it can be used with other block elements like lists
  */
 .uk-grid
+  display -ms-flexbox
+  display -webkit-flex
+  display flex
+  -ms-flex-wrap wrap
+  -webkit-flex-wrap wrap
+  flex-wrap wrap
   /* 1 */
-  margin 0 0 0 - grid-gutter-horizontal grid-gutter-horizontal
-  /* 2 */
+  margin 0
   padding 0
   list-style none
 /*
+ * DEPRECATED
+ * Micro clearfix
+ * Can't use `table` because it creates a 1px gap when it becomes a flex item, only in Webkit
+ */
+.uk-grid:before, .uk-grid:after
+  content ""
+  display block
+  overflow hidden
+.uk-grid:after
+  clear both
+/*
  * Grid cell
- * 1. Makes grid more robust so that it can be used with other block elements
- * 2. Create horizontal gutter
- * 3. `float` is set by default so columns always behave the same and create a new block format context
+ * 1. Space is allocated solely based on content dimensions
+ * 2. Makes grid more robust so that it can be used with other block elements
+ * 3. DEPRECATED Using `float` to support IE9
  */
 .uk-grid > *
   /* 1 */
-  margin 0
+  -ms-flex none
+  -webkit-flex none
+  flex none
   /* 2 */
-  padding-left grid-gutter-horizontal
+  margin 0
   /* 3 */
   float left
 /*
@@ -50,59 +59,66 @@ grid-divider-border-width = 1px
 /* Grid gutter
  ========================================================================== */
 /*
- * Vertical gutter
+ * Default gutter
  */
-.uk-grid + .uk-grid
+/* Horizontal */
+.uk-grid
+  margin-left - grid-gutter-horizontal grid-gutter-horizontal
+.uk-grid > *
+  padding-left grid-gutter-horizontal
+/* Vertical */
+.uk-grid + .uk-grid, .uk-grid-margin, .uk-grid > * > .uk-panel + .uk-panel
   margin-top grid-gutter-vertical
-/*
- * This class is set by JavaScript and applies a vertical gutter if the columns stack or float into the next row
- * Higher specificity to override margin
- */
-.uk-grid > .uk-grid-margin
-  margin-top grid-gutter-vertical
-/*
- * Vertical gutter for panels
- */
-.uk-grid > * > .uk-panel + .uk-panel
-  margin-top grid-gutter-vertical
-/*
- * Larger gutter for large screens
- */
 /* Large screen and bigger */
-varad4341d84bdbcbf6a47e239d = "(min-width: " + breakpoint-xlarge + ")"
-@media varad4341d84bdbcbf6a47e239d
-  /* Horizontal gutter */
-  .uk-grid:not(.uk-grid-preserve)
+vara659b81d7273f217465af4a4 = "(min-width: " + breakpoint-xlarge + ")"
+@media vara659b81d7273f217465af4a4
+  /* Horizontal */
+  .uk-grid
     margin-left - grid-gutter-large-horizontal grid-gutter-large-horizontal
-  .uk-grid:not(.uk-grid-preserve) > *
+  .uk-grid > *
     padding-left grid-gutter-large-horizontal
-  /* Vertical gutter */
-  .uk-grid:not(.uk-grid-preserve) + .uk-grid
+  /* Vertical */
+  .uk-grid + .uk-grid, .uk-grid-margin, .uk-grid > * > .uk-panel + .uk-panel
     margin-top grid-gutter-large-vertical
-  .uk-grid:not(.uk-grid-preserve) > .uk-grid-margin
-    margin-top grid-gutter-large-vertical
-  /* Vertical gutter for panels */
-  .uk-grid:not(.uk-grid-preserve) > * > .uk-panel + .uk-panel
-    margin-top grid-gutter-large-vertical
+/*
+ * Collapse gutter
+ */
+/* Horizontal */
+.uk-grid-collapse
+  margin-left 0
+.uk-grid-collapse > *
+  padding-left 0
+/* Vertical */
+.uk-grid-collapse + .uk-grid-collapse, .uk-grid-collapse > .uk-grid-margin, .uk-grid-collapse > * > .uk-panel + .uk-panel
+  margin-top 0
 /*
  * Small gutter
- * Higher specificity to override large gutter
  */
-.uk-grid.uk-grid-small
+/* Horizontal */
+.uk-grid-small
   margin-left - grid-gutter-small-horizontal grid-gutter-small-horizontal
-.uk-grid.uk-grid-small > *
+.uk-grid-small > *
   padding-left grid-gutter-small-horizontal
-.uk-grid.uk-grid-small + .uk-grid-small
+/* Vertical */
+.uk-grid-small + .uk-grid-small, .uk-grid-small > .uk-grid-margin, .uk-grid-small > * > .uk-panel + .uk-panel
   margin-top grid-gutter-small-vertical
-.uk-grid.uk-grid-small > .uk-grid-margin
-  margin-top grid-gutter-small-vertical
-.uk-grid.uk-grid-small > * > .uk-panel + .uk-panel
-  margin-top grid-gutter-small-vertical
+/*
+ * Medium gutter
+ */
+/* Horizontal */
+.uk-grid-medium
+  margin-left - grid-gutter-horizontal grid-gutter-horizontal
+.uk-grid-medium > *
+  padding-left grid-gutter-horizontal
+/* Vertical */
+.uk-grid-medium + .uk-grid-medium, .uk-grid-medium > .uk-grid-margin, .uk-grid-medium > * > .uk-panel + .uk-panel
+  margin-top grid-gutter-vertical
 /* Modifier: `uk-grid-divider`
  ========================================================================== */
 /*
  * Horizontal divider
- * Does not work with `uk-push-*`, `uk-pull-*` and not if the columns float into the next row
+ * Only works with the default gutter. Does not work with gutter collapse, small or large.
+ * Does not work with `uk-push-*`, `uk-pull-*` and not if the columns float into the next row.
  */
 .uk-grid-divider:not(:empty)
   margin-left - grid-gutter-horizontal grid-gutter-horizontal
@@ -113,28 +129,28 @@ varad4341d84bdbcbf6a47e239d = "(min-width: " + breakpoint-xlarge + ")"
 .uk-grid-divider > [class*='uk-width-1-']:not(.uk-width-1-1):nth-child(n + 2), .uk-grid-divider > [class*='uk-width-2-']:nth-child(n + 2), .uk-grid-divider > [class*='uk-width-3-']:nth-child(n + 2), .uk-grid-divider > [class*='uk-width-4-']:nth-child(n + 2), .uk-grid-divider > [class*='uk-width-5-']:nth-child(n + 2), .uk-grid-divider > [class*='uk-width-6-']:nth-child(n + 2), .uk-grid-divider > [class*='uk-width-7-']:nth-child(n + 2), .uk-grid-divider > [class*='uk-width-8-']:nth-child(n + 2), .uk-grid-divider > [class*='uk-width-9-']:nth-child(n + 2)
   border-left grid-divider-border-width solid grid-divider-border
 /* Tablet and bigger */
-var6b2a6a981dfc414284e7667f = "(min-width: " + breakpoint-medium + ")"
-@media var6b2a6a981dfc414284e7667f
+var916297d1b63794fe86709939 = "(min-width: " + breakpoint-medium + ")"
+@media var916297d1b63794fe86709939
   .uk-grid-divider > [class*='uk-width-medium-']:not(.uk-width-medium-1-1):nth-child(n + 2)
     border-left grid-divider-border-width solid grid-divider-border
 /* Desktop and bigger */
-varabbddaf3cef07ef90d8e4d6a = "(min-width: " + breakpoint-large + ")"
-@media varabbddaf3cef07ef90d8e4d6a
+var4bc3d7cc69de2b5103ea103d = "(min-width: " + breakpoint-large + ")"
+@media var4bc3d7cc69de2b5103ea103d
   .uk-grid-divider > [class*='uk-width-large-']:not(.uk-width-large-1-1):nth-child(n + 2)
     border-left grid-divider-border-width solid grid-divider-border
 /* Large screen and bigger */
-var28554bc31e2ae9da42b871cf = "(min-width: " + breakpoint-xlarge + ")"
-@media var28554bc31e2ae9da42b871cf
+var75004a56bdb1cb8b773f24c1 = "(min-width: " + breakpoint-xlarge + ")"
+@media var75004a56bdb1cb8b773f24c1
   /*
      * Large gutter
      */
-  .uk-grid-divider:not(.uk-grid-preserve):not(:empty)
+  .uk-grid-divider:not(:empty)
     margin-left - grid-gutter-large-horizontal grid-gutter-large-horizontal
     margin-right - grid-gutter-large-horizontal grid-gutter-large-horizontal
-  .uk-grid-divider:not(.uk-grid-preserve) > *
+  .uk-grid-divider > *
     padding-left grid-gutter-large-horizontal
     padding-right grid-gutter-large-horizontal
-  .uk-grid-divider:not(.uk-grid-preserve):empty
+  .uk-grid-divider:empty
     margin-top grid-gutter-large-vertical
     margin-bottom grid-gutter-large-vertical
 /*
@@ -144,6 +160,26 @@ var28554bc31e2ae9da42b871cf = "(min-width: " + breakpoint-xlarge + ")"
   margin-top grid-gutter-vertical
   margin-bottom grid-gutter-vertical
   border-top grid-divider-border-width solid grid-divider-border
+/* Match panels in grids
+ ========================================================================== */
+.uk-grid-match > *
+  display -ms-flexbox
+  display -webkit-flex
+  display flex
+/*
+ * 1. Behave like a block element
+ */
+.uk-grid-match > * > *
+  /* 1 */
+  -ms-flex none
+  -webkit-flex none
+  flex none
+  -ms-flex-wrap wrap
+  -webkit-flex-wrap wrap
+  flex-wrap wrap
+  -moz-box-sizing border-box
+  box-sizing border-box
+  width 100%
 /* Even grid cell widths
  ========================================================================== */
 [class*='uk-grid-width'] > *
@@ -163,8 +199,8 @@ var28554bc31e2ae9da42b871cf = "(min-width: " + breakpoint-xlarge + ")"
 .uk-grid-width-1-10 > *
   width 10%
 /* Phone landscape and bigger */
-vara8ca3071a5c13cb21d1c5478 = "(min-width: " + breakpoint-small + ")"
-@media vara8ca3071a5c13cb21d1c5478
+varc610388db4d530d1596c3e20 = "(min-width: " + breakpoint-small + ")"
+@media varc610388db4d530d1596c3e20
   .uk-grid-width-small-1-2 > *
     width 50%
   .uk-grid-width-small-1-3 > *
@@ -178,8 +214,8 @@ vara8ca3071a5c13cb21d1c5478 = "(min-width: " + breakpoint-small + ")"
   .uk-grid-width-small-1-10 > *
     width 10%
 /* Tablet and bigger */
-var2da5d2081fe24275455e7deb = "(min-width: " + breakpoint-medium + ")"
-@media var2da5d2081fe24275455e7deb
+varc73ab274fcc9348b2472e5d9 = "(min-width: " + breakpoint-medium + ")"
+@media varc73ab274fcc9348b2472e5d9
   .uk-grid-width-medium-1-2 > *
     width 50%
   .uk-grid-width-medium-1-3 > *
@@ -193,8 +229,8 @@ var2da5d2081fe24275455e7deb = "(min-width: " + breakpoint-medium + ")"
   .uk-grid-width-medium-1-10 > *
     width 10%
 /* Desktop and bigger */
-vara5eaf7b3b0f3ee0a8a0048be = "(min-width: " + breakpoint-large + ")"
-@media vara5eaf7b3b0f3ee0a8a0048be
+varc6c0130fd429165df42c0c21 = "(min-width: " + breakpoint-large + ")"
+@media varc6c0130fd429165df42c0c21
   .uk-grid-width-large-1-2 > *
     width 50%
   .uk-grid-width-large-1-3 > *
@@ -208,8 +244,8 @@ vara5eaf7b3b0f3ee0a8a0048be = "(min-width: " + breakpoint-large + ")"
   .uk-grid-width-large-1-10 > *
     width 10%
 /* Large screen and bigger */
-varb5b5990a48b830e2aba1f656 = "(min-width: " + breakpoint-xlarge + ")"
-@media varb5b5990a48b830e2aba1f656
+vardbd424a4c91cd6123244182b = "(min-width: " + breakpoint-xlarge + ")"
+@media vardbd424a4c91cd6123244182b
   .uk-grid-width-xlarge-1-2 > *
     width 50%
   .uk-grid-width-xlarge-1-3 > *
@@ -271,8 +307,8 @@ varb5b5990a48b830e2aba1f656 = "(min-width: " + breakpoint-xlarge + ")"
 .uk-width-9-10
   width 90%
 /* Phone landscape and bigger */
-var01dd3ef1e21a9e5fc01e6df1 = "(min-width: " + breakpoint-small + ")"
-@media var01dd3ef1e21a9e5fc01e6df1
+vara5c3c39e59beb7d71b71ad8e = "(min-width: " + breakpoint-small + ")"
+@media vara5c3c39e59beb7d71b71ad8e
   /* Whole */
   .uk-width-small-1-1
     width 100%
@@ -313,8 +349,8 @@ var01dd3ef1e21a9e5fc01e6df1 = "(min-width: " + breakpoint-small + ")"
   .uk-width-small-9-10
     width 90%
 /* Tablet and bigger */
-varf1cb1d869092e25554c5839c = "(min-width: " + breakpoint-medium + ")"
-@media varf1cb1d869092e25554c5839c
+var2fd5c1655fabfd144503dd03 = "(min-width: " + breakpoint-medium + ")"
+@media var2fd5c1655fabfd144503dd03
   /* Whole */
   .uk-width-medium-1-1
     width 100%
@@ -355,8 +391,8 @@ varf1cb1d869092e25554c5839c = "(min-width: " + breakpoint-medium + ")"
   .uk-width-medium-9-10
     width 90%
 /* Desktop and bigger */
-vara448d05eb1560f69cc2db597 = "(min-width: " + breakpoint-large + ")"
-@media vara448d05eb1560f69cc2db597
+vard1f8e9a9d1172012557db6d0 = "(min-width: " + breakpoint-large + ")"
+@media vard1f8e9a9d1172012557db6d0
   /* Whole */
   .uk-width-large-1-1
     width 100%
@@ -403,8 +439,8 @@ vara448d05eb1560f69cc2db597 = "(min-width: " + breakpoint-large + ")"
  * Works only with `uk-width-medium-*`
  */
 /* Tablet and bigger */
-varef89bb9a350fa360a8cf7270 = "(min-width: " + breakpoint-medium + ")"
-@media varef89bb9a350fa360a8cf7270
+var2a1c62467e32b0eba4ffd56c = "(min-width: " + breakpoint-medium + ")"
+@media var2a1c62467e32b0eba4ffd56c
   [class*='uk-push-'], [class*='uk-pull-']
     position relative
   /*

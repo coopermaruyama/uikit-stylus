@@ -9,6 +9,7 @@ table-striped-background = rgb(245, 245, 245, 1)
 table-condensed-padding-vertical = 4px
 table-condensed-padding-horizontal = 8px
 table-hover-background = rgb(238, 238, 238, 1)
+table-active-background = table-hover-background
 /* ========================================================================
    Component: Table
  ========================================================================== */
@@ -51,6 +52,12 @@ table-hover-background = rgb(238, 238, 238, 1)
 .uk-table caption
   text-align left
   color table-caption-color
+/*
+ * Active State
+ */
+.uk-table tbody tr.uk-active
+  background table-active-background
+  @extend .hook-table-active
 /* Sub-modifier: `uk-table-middle`
  ========================================================================== */
 .uk-table-middle, .uk-table-middle td
@@ -59,18 +66,33 @@ table-hover-background = rgb(238, 238, 238, 1)
  ========================================================================== */
 .uk-table-striped tbody tr:nth-of-type(odd)
   background table-striped-background
+  @extend .hook-table-striped
 /* Modifier: `uk-table-condensed`
  ========================================================================== */
 .uk-table-condensed td
   padding table-condensed-padding-vertical table-condensed-padding-horizontal
+  @extend .hook-table-condensed
 /* Modifier: `uk-table-hover`
  ========================================================================== */
 .uk-table-hover tbody tr:hover
   background table-hover-background
+  @extend .hook-table-hover
 @extend .hook-table-misc
 hook-table()
 .hook-table
   hook-table()
+hook-table-active()
+.hook-table-active
+  hook-table-active()
+hook-table-striped()
+.hook-table-striped
+  hook-table-striped()
+hook-table-condensed()
+.hook-table-condensed
+  hook-table-condensed()
+hook-table-hover()
+.hook-table-hover
+  hook-table-hover()
 hook-table-misc()
 .hook-table-misc
   hook-table-misc()

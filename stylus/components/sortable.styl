@@ -2,7 +2,7 @@ lesscss-percentage(n)
   (n * 100)%
 sortable-dragged-z-index = 1050
 sortable-placeholder-opacity = 0
-sortable-over-opacity = 0.3
+sortable-empty-height = 30px
 /* ========================================================================
    Component: Sortable
  ========================================================================== */
@@ -10,20 +10,21 @@ sortable-over-opacity = 0.3
   position relative
   @extend .hook-sortable
 /*
- * Makes text unselectable
+ * Deactivate browser touch actions in IE11
  */
 .uk-sortable > *
-  -moz-user-select none
-  -webkit-user-select none
-  -ms-user-select none
-  user-select none
+  touch-action none
 /*
- * Prevents images and links from being dragged (default browser behavior)
+ * Disables the default callout shown when you touch and hold a touch target
  * Currently only works in Webkit
  */
-.uk-sortable > * *
-  -webkit-user-drag none
-  user-drag none
+.uk-sortable a, .uk-sortable img
+  -webkit-touch-callout none
+/*
+ * Remove margin from the last-child
+ */
+.uk-sortable > :last-child
+  margin-bottom 0
 /* Sub-modifier `uk-sortable-dragged`
  ========================================================================== */
 .uk-sortable-dragged
@@ -36,13 +37,22 @@ sortable-over-opacity = 0.3
 .uk-sortable-placeholder
   opacity sortable-placeholder-opacity
   @extend .hook-sortable-placeholder
-/* Sub-modifier `uk-sortable-over`
- * Only if `warp:true`
+/* Empty List
  ========================================================================== */
-.uk-sortable-over
-  opacity sortable-over-opacity
-  @extend .hook-sortable-over
-/* Sub-object `uk-nestable-moving`
+.uk-sortable:empty
+  min-height sortable-empty-height
+  @extend .hook-sortable-empty
+/* Sub-object `uk-sortable-handle`
+ ========================================================================== */
+/*
+ * Deactivate browser touch actions in IE11
+ */
+.uk-sortable-handle
+  touch-action none
+/* Hover */
+.uk-sortable-handle:hover
+  cursor move
+/* Sub-object `uk-sortable-moving`
  ========================================================================== */
 .uk-sortable-moving, .uk-sortable-moving *
   cursor move
@@ -56,9 +66,9 @@ hook-sortable-dragged()
 hook-sortable-placeholder()
 .hook-sortable-placeholder
   hook-sortable-placeholder()
-hook-sortable-over()
-.hook-sortable-over
-  hook-sortable-over()
+hook-sortable-empty()
+.hook-sortable-empty
+  hook-sortable-empty()
 hook-sortable-misc()
 .hook-sortable-misc
   hook-sortable-misc()

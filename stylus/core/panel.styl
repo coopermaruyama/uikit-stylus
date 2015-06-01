@@ -6,20 +6,30 @@ panel-title-line-height = 24px
 panel-title-font-weight = normal
 panel-title-color = rgb(68, 68, 68, 1)
 panel-title-text-transform = none
+panel-teaser-margin-bottom = panel-title-margin-bottom
 panel-box-padding = 15px
 panel-box-background = rgb(245, 245, 245, 1)
 panel-box-color = rgb(68, 68, 68, 1)
+panel-box-hover-color = panel-box-color
 panel-box-title-color = rgb(68, 68, 68, 1)
 panel-box-badge-top = 10px
 panel-box-badge-right = panel-box-badge-top
 panel-box-teaser-margin = - panel-box-padding panel-box-padding
-panel-box-teaser-margin-bottom = panel-title-margin-bottom
 panel-box-primary-background = rgb(235, 247, 253, 1)
 panel-box-primary-color = rgb(45, 112, 145, 1)
+panel-box-primary-hover-color = panel-box-primary-color
 panel-box-primary-title-color = rgb(45, 112, 145, 1)
 panel-box-secondary-background = rgb(238, 238, 238, 1)
 panel-box-secondary-color = rgb(68, 68, 68, 1)
+panel-box-secondary-hover-color = panel-box-secondary-color
 panel-box-secondary-title-color = rgb(68, 68, 68, 1)
+panel-hover-padding = 15px
+panel-hover-color = rgb(68, 68, 68, 1)
+panel-hover-hover-background = rgb(245, 245, 245, 1)
+panel-hover-hover-color = rgb(68, 68, 68, 1)
+panel-hover-badge-top = 10px
+panel-hover-badge-right = panel-hover-badge-top
+panel-hover-teaser-margin = - panel-hover-padding panel-hover-padding
 panel-header-title-padding = 10px
 panel-header-title-border = rgb(221, 221, 221, 1)
 panel-header-title-border-width = 1px
@@ -42,10 +52,15 @@ panel-divider-border-width = 1px
   /* 2 */
   position relative
 /*
+ * Allow panels to be anchors
+ */
+.uk-panel, .uk-panel:hover
+  text-decoration none
+/*
  * Micro clearfix to make panels more robust
  */
 .uk-panel:before, .uk-panel:after
-  content " "
+  content ""
   display table
 .uk-panel:after
   clear both
@@ -73,6 +88,10 @@ panel-divider-border-width = 1px
   right 0
   z-index 1
   @extend .hook-panel-badge
+/* Sub-object: `uk-panel-teaser`
+ ========================================================================== */
+.uk-panel-teaser
+  margin-bottom panel-teaser-margin-bottom
 /* Modifier: `uk-panel-box`
  ========================================================================== */
 .uk-panel-box
@@ -80,13 +99,18 @@ panel-divider-border-width = 1px
   background panel-box-background
   color panel-box-color
   @extend .hook-panel-box
+.uk-panel-box-hover:hover
+  color panel-box-hover-color
+  @extend .hook-panel-box-hover
 .uk-panel-box .uk-panel-title
   color panel-box-title-color
 .uk-panel-box .uk-panel-badge
   top panel-box-badge-top
   right panel-box-badge-right
 .uk-panel-box .uk-panel-teaser
-  margin panel-box-teaser-margin panel-box-teaser-margin panel-box-teaser-margin-bottom panel-box-teaser-margin
+  margin-top panel-box-teaser-margin
+  margin-left panel-box-teaser-margin
+  margin-right panel-box-teaser-margin
 /*
  * Nav in panel
  */
@@ -99,6 +123,9 @@ panel-divider-border-width = 1px
   background-color panel-box-primary-background
   color panel-box-primary-color
   @extend .hook-panel-box-primary
+.uk-panel-box-primary-hover:hover
+  color panel-box-primary-hover-color
+  @extend .hook-panel-box-primary-hover
 .uk-panel-box-primary .uk-panel-title
   color panel-box-primary-title-color
 /*
@@ -108,8 +135,28 @@ panel-divider-border-width = 1px
   background-color panel-box-secondary-background
   color panel-box-secondary-color
   @extend .hook-panel-box-secondary
+.uk-panel-box-secondary-hover:hover
+  color panel-box-secondary-hover-color
+  @extend .hook-panel-box-secondary-hover
 .uk-panel-box-secondary .uk-panel-title
   color panel-box-secondary-title-color
+/* Modifier: `uk-panel-hover`
+ ========================================================================== */
+.uk-panel-hover
+  padding panel-hover-padding
+  color panel-hover-color
+  @extend .hook-panel-hover
+.uk-panel-hover:hover
+  background panel-hover-hover-background
+  color panel-hover-hover-color
+  @extend .hook-panel-hover-hover
+.uk-panel-hover .uk-panel-badge
+  top panel-hover-badge-top
+  right panel-hover-badge-right
+.uk-panel-hover .uk-panel-teaser
+  margin-top panel-hover-teaser-margin
+  margin-left panel-hover-teaser-margin
+  margin-right panel-hover-teaser-margin
 /* Modifier: `uk-panel-header`
  ========================================================================== */
 .uk-panel-header .uk-panel-title
@@ -137,8 +184,8 @@ panel-divider-border-width = 1px
   right 0
   border-top panel-divider-border-width solid panel-divider-border
 /* Large screen and bigger */
-var8efe5dbca62bb06d848189db = "(min-width: " + breakpoint-xlarge + ")"
-@media var8efe5dbca62bb06d848189db
+var041f1509d5755eedb4c24feb = "(min-width: " + breakpoint-xlarge + ")"
+@media var041f1509d5755eedb4c24feb
   .uk-panel + .uk-panel-divider
     margin-top (panel-divider-gutter-large * 2) !important
   .uk-panel + .uk-panel-divider:before
@@ -153,12 +200,27 @@ hook-panel-badge()
 hook-panel-box()
 .hook-panel-box
   hook-panel-box()
+hook-panel-box-hover()
+.hook-panel-box-hover
+  hook-panel-box-hover()
 hook-panel-box-primary()
 .hook-panel-box-primary
   hook-panel-box-primary()
+hook-panel-box-primary-hover()
+.hook-panel-box-primary-hover
+  hook-panel-box-primary-hover()
 hook-panel-box-secondary()
 .hook-panel-box-secondary
   hook-panel-box-secondary()
+hook-panel-box-secondary-hover()
+.hook-panel-box-secondary-hover
+  hook-panel-box-secondary-hover()
+hook-panel-hover()
+.hook-panel-hover
+  hook-panel-hover()
+hook-panel-hover-hover()
+.hook-panel-hover-hover
+  hook-panel-hover-hover()
 hook-panel-header()
 .hook-panel-header
   hook-panel-header()

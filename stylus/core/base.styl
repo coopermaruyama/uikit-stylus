@@ -228,21 +228,27 @@ h1, h2, h3, h4, h5, h6
 h1, .uk-h1
   font-size base-h1-font-size
   line-height base-h1-line-height
+  @extend .hook-base-h1
 h2, .uk-h2
   font-size base-h2-font-size
   line-height base-h2-line-height
+  @extend .hook-base-h2
 h3, .uk-h3
   font-size base-h3-font-size
   line-height base-h3-line-height
+  @extend .hook-base-h3
 h4, .uk-h4
   font-size base-h4-font-size
   line-height base-h4-line-height
+  @extend .hook-base-h4
 h5, .uk-h5
   font-size base-h5-font-size
   line-height base-h5-line-height
+  @extend .hook-base-h5
 h6, .uk-h6
   font-size base-h6-font-size
   line-height base-h6-line-height
+  @extend .hook-base-h6
 /* Lists
  ========================================================================== */
 ul, ol
@@ -349,6 +355,24 @@ hook-base-body()
 hook-base-code()
 .hook-base-code
   hook-base-code()
+hook-base-h1()
+.hook-base-h1
+  hook-base-h1()
+hook-base-h2()
+.hook-base-h2
+  hook-base-h2()
+hook-base-h3()
+.hook-base-h3
+  hook-base-h3()
+hook-base-h4()
+.hook-base-h4
+  hook-base-h4()
+hook-base-h5()
+.hook-base-h5
+  hook-base-h5()
+hook-base-h6()
+.hook-base-h6
+  hook-base-h6()
 hook-base-pre()
 .hook-base-pre
   hook-base-pre()

@@ -228,11 +228,15 @@ form-icon-color = rgb(153, 153, 153, 1)
   font-size form-legend-font-size
   line-height form-legend-line-height
   @extend .hook-form-legend
-/* 4 */
+/*
+ * 1. Fixes IE9
+ */
 .uk-form legend:after
   content ""
   display block
   border-bottom form-legend-border-width solid form-legend-border
+  /* 1 */
+  width 100%
 /* Size modifiers
  * Higher specificity needed to override defaults
  ========================================================================== */
@@ -306,7 +310,7 @@ select.uk-form-width-mini
  * Needed for `uk-form-horizontal` modifier
  */
 .uk-form-row:before, .uk-form-row:after
-  content " "
+  content ""
   display table
 .uk-form-row:after
   clear both
@@ -350,8 +354,8 @@ select.uk-form-width-mini
  * Requires sub-objects: `uk-form-label`, `uk-form-controls`
  ========================================================================== */
 /* Tablet portrait and smaller */
-var890280681a41e8bd716c25cf = "(max-width: " + breakpoint-medium-max + ")"
-@media var890280681a41e8bd716c25cf
+var7377b92a2bde277df96a0c66 = "(max-width: " + breakpoint-medium-max + ")"
+@media var7377b92a2bde277df96a0c66
   /* Behave like `uk-form-stacked` */
   .uk-form-horizontal .uk-form-label
     display block
@@ -359,8 +363,8 @@ var890280681a41e8bd716c25cf = "(max-width: " + breakpoint-medium-max + ")"
     font-weight form-stacked-font-weight
     @extend .hook-form-stacked-label
 /* Desktop and bigger */
-vara6201e232ac5d56011a62ad9 = "(min-width: " + breakpoint-large + ")"
-@media vara6201e232ac5d56011a62ad9
+var583ccbaf24938fec1d534224 = "(min-width: " + breakpoint-large + ")"
+@media var583ccbaf24938fec1d534224
   .uk-form-horizontal .uk-form-label
     width form-horizontal-label-width
     margin-top form-horizontal-label-margin-top
